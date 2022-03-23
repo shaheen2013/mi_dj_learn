@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="card my-5">
+        <div class="card-header">
+            <h4 class="card-title">
+                {{ title }}
+            </h4>
+        </div>
+        <div class="card-body">
+            {% comment %}{% if form.errors %}
+                {% for error in form.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                        {{ error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}{% endcomment %}
+
+            <form action="/" method="POST" novalidate>
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                    {% if form.title.help_text %}
+                        <small class="form-text text-muted">{{ form.title.help_text }}</small>
+                    {% endif %}
+                    {% if form.title.errors %}
+                        {% for titleError in form.title.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ titleError | escape }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form.content.label_tag }}
+                    {{ form.content }}
+                    {% if form.content.errors %}
+                        {% for contentError in form.content.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ contentError | escape }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {% if rows %}
+        {% for row in rows %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ row.title }} -
+                        <small class="text-muted">
+                            {{ row.created_at | date:"d/m/Y - h:i:sA" }}
+                        </small>
+                    </h5>
+                    <p class="card-text">{{ row.content }}</p>
+                    <a href="#" class="btn btn-primary">View More</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

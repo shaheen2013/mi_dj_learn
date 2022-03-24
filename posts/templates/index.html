@@ -18,7 +18,7 @@
                 {% endfor %}
             {% endif %}{% endcomment %}
 
-            <form action="/" method="POST" novalidate>
+            <form action="/" method="POST" novalidate enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-group mb-3">
                     {{ form.title.label_tag }}
@@ -36,6 +36,30 @@
                 </div>
 
                 <div class="form-group mb-3">
+                    {{ form.image.label_tag }}
+                    {{ form.image }}
+                    {% if form.image.errors %}
+                        {% for imageError in form.image.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ imageError | escape }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form.category.label_tag }}
+                    {{ form.category }}
+                    {% if form.category.errors %}
+                        {% for categoryError in form.category.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ categoryError | escape }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="form-group mb-3">
                     {{ form.content.label_tag }}
                     {{ form.content }}
                     {% if form.content.errors %}
@@ -47,7 +71,47 @@
                     {% endif %}
                 </div>
 
-                <button type="submit" class="btn btn-primary">
+                <hr>
+                <fieldset>
+                    <legend>
+                        Post Seo Contents
+                    </legend>
+                    {{ post_seo_formset.non_form_errors }}
+                    {{ post_seo_formset.management_form }}
+                    {% for post_seo_form in post_seo_formset %}
+                        <div class="card mb-3 target">
+                            <div class="card-body">
+                                {% if post_seo_formset.can_delete %}
+                                    <div class="float-end">{{ post_seo_form.DELETE }} {{ post_seo_form.DELETE.label }}</div>
+                                {% endif %}
+                                <div class="form-group mb-3">
+                                    {{ post_seo_form.title.label_tag }}
+                                    {{ post_seo_form.title }}
+                                    {% if post_seo_form.title.errors %}
+                                        {% for postSeoTitleError in post_seo_form.title.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ postSeoTitleError | escape }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="form-group mb-3">
+                                    {{ post_seo_form.description.label_tag }}
+                                    {{ post_seo_form.description }}
+                                    {% if post_seo_form.description.errors %}
+                                        {% for postSeoDescriptionError in post_seo_form.description.errors %}
+                                            <div class="invalid-feedback d-block">
+                                                {{ postSeoDescriptionError | escape }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </fieldset>
+
+                <button type="submit"  class="btn btn-primary">
                     Submit
                 </button>
             </form>
@@ -64,11 +128,23 @@
                             {{ row.created_at | date:"d/m/Y - h:i:sA" }}
                         </small>
                     </h5>
-                    <p class="card-text">{{ row.content }}</p>
+                    <p class="card-text">
+                        {% autoescape off %}
+                            {{ row.content|striptags|truncatewords_html:10 }}
+                        {% endautoescape %}
+                    </p>
                     <a href="#" class="btn btn-primary">View More</a>
                 </div>
             </div>
         {% endfor %}
+
+
     {% endif %}
 
+{% endblock %}
+
+{% block js %}
+    <script>
+
+    </script>
 {% endblock %}

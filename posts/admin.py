@@ -1,3 +1,4 @@
+import requests
 from django.contrib import admin
 from posts.models import Post, Category, PostSeo
 from django.template.defaultfilters import truncatewords_html, striptags

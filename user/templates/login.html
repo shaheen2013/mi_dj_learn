@@ -1,0 +1,57 @@
+{% extends 'user/layout.html' %}
+
+{% block content %}
+    <div class="row justify-content-center my-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">
+                        {{ title }}
+                    </h4>
+                </div>
+
+                <div class="card-body">
+                    <form action="{% url 'login' %}" method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                {% for usernameError in form.username.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ usernameError | escape }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% if form.username.help_text %}
+                                <div id="emailHelp" class="form-text">
+                                    {{ form.username.help_text }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            {{ form.password.label_tag }}
+                            {{ form.password }}
+                            {% if form.password.errors %}
+                                {% for passwordError in form.password.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ passwordError | escape }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% if form.password.help_text %}
+                                <div id="emailHelp" class="form-text">
+                                    {{ form.password.help_text }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <a href="{% url 'register' %}" class="btn btn-secondary float-end">Register Now</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

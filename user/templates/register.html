@@ -1,0 +1,90 @@
+{% extends 'user/layout.html' %}
+
+{% block content %}
+    <div class="row justify-content-center my-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">
+                        {{ title }}
+                    </h4>
+                </div>
+
+                <div class="card-body">
+                    {% if form.non_field_errors %}
+                        {% for non_field_error in form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                                {{ non_field_error | escape }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <form action="{% url 'register' %}" method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                            {% if form.username.errors %}
+                                {% for usernameError in form.username.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ usernameError | escape }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% if form.username.non_field_errors %}
+                                {% for usernameError in form.username.non_field_errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ usernameError | escape }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% if form.username.help_text %}
+                                <div id="emailHelp" class="form-text">
+                                    {{ form.username.help_text }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            {{ form.password1.label_tag }}
+                            {{ form.password1 }}
+                            {% if form.password1.errors %}
+                                {% for password1Error in form.password1.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ password1Error | escape }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% if form.password1.help_text %}
+                                <div id="emailHelp" class="form-text">
+                                    {{ form.password1.help_text }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            {{ form.password2.label_tag }}
+                            {{ form.password2 }}
+                            {% if form.password2.errors %}
+                                {% for password2Error in form.password2.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ password2Error | escape }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% if form.password2.help_text %}
+                                <div id="emailHelp" class="form-text">
+                                    {{ form.password2.help_text }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Register</button>
+                        <a href="{% url 'login' %}" class="btn btn-secondary float-end">Login Now</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'user/layout.html' %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">
+                Dashboard
+                <a href="{% url 'logout' %}" class="btn btn-danger float-end">Logout</a>
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-success" role="alert">
+                You have successfully logged in!
+            </div>
+        </div>
+    </div>
+{% endblock %}
